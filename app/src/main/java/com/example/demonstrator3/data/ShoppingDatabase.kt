@@ -24,7 +24,8 @@ abstract class ShoppingDatabase : RoomDatabase() {
                 Room.databaseBuilder(
                     context,
                     ShoppingDatabase::class.java,
-                    "shopping_database" // שם הקובץ הפיזי בטלפון
+                    // שם הקובץ הפיזי בטלפון
+                    "shopping_database"
                 )
                     .build()
                     .also { Instance = it }

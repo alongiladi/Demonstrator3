@@ -35,7 +35,8 @@ fun AddItemScreen(
 
             OutlinedTextField(
                 value = quantity,
-                onValueChange = { quantity = it }, // אפשר להוסיף סינון למספרים בלבד
+                // אפשר להוסיף סינון למספרים בלבד
+                onValueChange = { quantity = it },
                 label = { Text("Quantity") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -43,8 +44,10 @@ fun AddItemScreen(
             Button(
                 onClick = {
                     if (name.isNotEmpty()) {
-                        viewModel.addItem(name, quantity) // קריאה ל-ViewModel
-                        onNavigateBack() // חזרה למסך הקודם
+                        // קריאה ל-ViewModel
+                        viewModel.addItem(name, quantity)
+                        // חזרה למסך הקודם
+                        onNavigateBack()
                     }
                 },
                 modifier = Modifier.fillMaxWidth()
