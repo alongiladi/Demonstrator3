@@ -5,7 +5,7 @@
     <!--        מוודאים שאנדרואיד ישתמש ב"מנהל העבודה שלנו" - כלומר האפליקציה שלנו, ולא במערכת הפעלה גנרית כלשהיא -->
     <application
 
-        android:name=".ShoppingApplication"
+        android:name=".BandForgeApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"

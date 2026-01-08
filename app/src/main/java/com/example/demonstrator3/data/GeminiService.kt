@@ -1,0 +1,24 @@
+package com.example.demonstrator3.data
+
+import com.example.demonstrator3.BuildConfig
+import com.google.ai.client.generativeai.GenerativeModel
+
+class GeminiService {
+
+    private val generativeModel = GenerativeModel(
+        // לדגמים נוספים, עיין בתיעוד של Gemini API
+        modelName = "gemini-pro",
+        // קריאת המפתח שהגדרנו ב-build.gradle
+        apiKey = BuildConfig.GEMINI_API_KEY
+    )
+
+    suspend fun generateBandName(prompt: String): String {
+        return try {
+            val response = generativeModel.generateContent(prompt)
+            response.text ?: "Error: Could not generate name."
+        } catch (e: Exception) {
+            // החזרת הודעת שגיאה במקרה של כשל בתקשורת
+            e.localizedMessage ?: "An unknown error occurred."
+        }
+    }
+}
