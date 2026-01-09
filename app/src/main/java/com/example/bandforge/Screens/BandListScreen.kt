@@ -1,4 +1,4 @@
-package com.example.demonstrator3.Screens
+package com.example.bandforge.Screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -11,8 +11,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.demonstrator3.BandViewModel
-import com.example.demonstrator3.data.BandItem
+import com.example.bandforge.BandViewModel
+import com.example.bandforge.data.BandItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

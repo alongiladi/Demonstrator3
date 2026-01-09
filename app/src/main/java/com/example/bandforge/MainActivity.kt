@@ -1,4 +1,4 @@
-package com.example.demonstrator3
+package com.example.bandforge
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,8 +7,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.demonstrator3.Screens.AddBandScreen
-import com.example.demonstrator3.Screens.BandListScreen
+import com.example.bandforge.Screens.AddBandScreen
+import com.example.bandforge.Screens.BandListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

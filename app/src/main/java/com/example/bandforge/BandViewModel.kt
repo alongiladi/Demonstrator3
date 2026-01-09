@@ -1,11 +1,11 @@
-package com.example.demonstrator3
+package com.example.bandforge
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
-import com.example.demonstrator3.data.BandItem
-import com.example.demonstrator3.data.BandRepository
+import com.example.bandforge.data.BandItem
+import com.example.bandforge.data.BandRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

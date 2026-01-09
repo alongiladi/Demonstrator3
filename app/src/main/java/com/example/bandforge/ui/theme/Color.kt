@@ -1,4 +1,4 @@
-package com.example.demonstrator3.ui.theme
+package com.example.bandforge.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

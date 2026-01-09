@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Demonstrator3"
+rootProject.name = "bandforge"
 include(":app")

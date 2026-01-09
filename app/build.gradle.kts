@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 // קריאת המפתח והסרת המרכאות המיותרות
@@ -17,11 +18,11 @@ val apiKeyRaw = localProperties.getProperty("GEMINI_API_KEY", "")
 val apiKey = apiKeyRaw.removeSurrounding("\"") // מסיר מרכאות מההתחלה והסוף
 
 android {
-    namespace = "com.example.demonstrator3"
+    namespace = "com.example.bandforge"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.demonstrator3"
+        applicationId = "com.example.bandforge"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -81,6 +82,6 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
-    // Gemini API
-    implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
+    // Gemini API for Vertex AI
+    implementation("com.google.firebase:firebase-vertexai-kotlin:16.0.0-beta02")
 }

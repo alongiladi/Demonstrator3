@@ -1,4 +1,4 @@
-package com.example.demonstrator3
+package com.example.bandforge
 
 import org.junit.Test
 

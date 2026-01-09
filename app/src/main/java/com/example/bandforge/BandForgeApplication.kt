@@ -1,9 +1,9 @@
-package com.example.demonstrator3
+package com.example.bandforge
 
 import android.app.Application
-import com.example.demonstrator3.data.AppDatabase
-import com.example.demonstrator3.data.BandRepository
-import com.example.demonstrator3.data.GeminiService
+import com.example.bandforge.data.AppDatabase
+import com.example.bandforge.data.BandRepository
+import com.example.bandforge.data.GeminiService
 
 class BandForgeApplication : Application() {
     val database by lazy { AppDatabase.getDatabase(this) }

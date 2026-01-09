@@ -1,4 +1,4 @@
-package com.example.demonstrator3.data
+package com.example.bandforge.data
 
 import android.content.Context
 import androidx.room.Database
