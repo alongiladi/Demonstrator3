@@ -11,12 +11,14 @@ import com.example.bandforge.BandViewModel
 @Composable
 fun AddBandScreen(
     viewModel: BandViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var name by remember { mutableStateOf("") }
     var genre by remember { mutableStateOf("") }
     var notes by remember { mutableStateOf("") }
     val generatedName by viewModel.generatedBandName.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
 
     // עדכון שדה השם כאשר מתקבל שם חדש מה-ViewModel
     LaunchedEffect(generatedName) {
@@ -25,55 +27,62 @@ fun AddBandScreen(
         }
     }
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Add a Band Name") }) }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+    Column(
+        modifier = modifier
+            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Band Name") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        )
+
+        OutlinedTextField(
+            value = genre,
+            onValueChange = { genre = it },
+            label = { Text("Genre") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        )
+
+        OutlinedTextField(
+            value = notes,
+            onValueChange = { notes = it },
+            label = { Text("Notes") },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        )
+
+        Button(
+            onClick = { viewModel.generateBandName(genre, notes) },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         ) {
-            OutlinedTextField(
-                value = name,
-                onValueChange = { name = it },
-                label = { Text("Band Name") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = genre,
-                onValueChange = { genre = it },
-                label = { Text("Genre") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            OutlinedTextField(
-                value = notes,
-                onValueChange = { notes = it },
-                label = { Text("Notes") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Button(
-                onClick = { viewModel.generateBandName(genre, notes) },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Generate with AI")
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text("Generate with AI - Coming soon in CCL3!")
             }
+        }
 
-            Button(
-                onClick = {
-                    if (name.isNotEmpty()) {
-                        viewModel.addItem(name, genre, notes)
-                        onNavigateBack()
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Save Band Name")
-            }
+        Button(
+            onClick = {
+                if (name.isNotEmpty()) {
+                    viewModel.addItem(name, genre, notes)
+                    onNavigateBack()
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        ) {
+            Text("Save Band Name")
         }
     }
 }

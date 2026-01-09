@@ -1,11 +1,16 @@
 package com.example.bandforge.data
 
-import com.google.firebase.vertexai.FirebaseVertexAI
+import com.example.bandforge.BuildConfig
+import com.google.ai.client.generativeai.GenerativeModel
 
 class GeminiService {
 
-    private val generativeModel = FirebaseVertexAI.getInstance()
-        .generativeModel("gemini-pro")
+    private val generativeModel = GenerativeModel(
+        // לדגמים נוספים, עיין בתיעוד של Gemini API
+        modelName = "gemini-pro",
+        // קריאת המפתח שהגדרנו ב-build.gradle
+        apiKey = BuildConfig.GEMINI_API_KEY
+    )
 
     suspend fun generateBandName(prompt: String): String {
         return try {

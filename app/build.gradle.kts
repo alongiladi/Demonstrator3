@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
-    id("com.google.gms.google-services")
 }
 
 // קריאת המפתח והסרת המרכאות המיותרות
@@ -82,6 +81,8 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
-    // Gemini API for Vertex AI
-    implementation("com.google.firebase:firebase-vertexai-kotlin:16.0.0-beta02")
+    // Gemini API with exclusion
+    implementation("com.google.ai.client.generativeai:generativeai:0.5.0") {
+        exclude(group = "com.google.cloud")
+    }
 }

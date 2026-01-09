@@ -6,6 +6,10 @@ class BandRepository(private val bandDao: BandDao, private val geminiService: Ge
 
     val allItems: Flow<List<BandItem>> = bandDao.getAllItems()
 
+    fun getItem(id: Int): Flow<BandItem?> {
+        return bandDao.getItem(id)
+    }
+
     suspend fun insert(item: BandItem) {
         bandDao.insert(item)
     }

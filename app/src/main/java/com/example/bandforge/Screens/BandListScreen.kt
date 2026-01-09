@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,7 +19,8 @@ import com.example.bandforge.data.BandItem
 @Composable
 fun BandListScreen(
     viewModel: BandViewModel,
-    onNavigateToAdd: () -> Unit
+    onNavigateToAdd: () -> Unit,
+    onNavigateToEdit: (Int) -> Unit
 ) {
     val items by viewModel.allItems.collectAsState(initial = emptyList())
 
@@ -35,14 +37,18 @@ fun BandListScreen(
             contentPadding = PaddingValues(16.dp)
         ) {
             items(items) { item ->
-                BandItemRow(item = item, onDelete = { viewModel.deleteItem(item) })
+                BandItemRow(
+                    item = item,
+                    onDelete = { viewModel.deleteItem(item) },
+                    onEdit = { onNavigateToEdit(item.id) }
+                )
             }
         }
     }
 }
 
 @Composable
-fun BandItemRow(item: BandItem, onDelete: () -> Unit) {
+fun BandItemRow(item: BandItem, onDelete: () -> Unit, onEdit: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
@@ -52,15 +58,20 @@ fun BandItemRow(item: BandItem, onDelete: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(text = item.name, style = MaterialTheme.typography.titleMedium)
                 Text(text = "Genre: ${item.genre}", style = MaterialTheme.typography.bodyMedium)
                 if (item.notes.isNotEmpty()) {
                     Text(text = "Notes: ${item.notes}", style = MaterialTheme.typography.bodySmall)
                 }
             }
-            IconButton(onClick = onDelete) {
-                Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+            Row {
+                IconButton(onClick = onEdit) {
+                    Icon(Icons.Default.Edit, contentDescription = "Edit")
+                }
+                IconButton(onClick = onDelete) {
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.error)
+                }
             }
         }
     }

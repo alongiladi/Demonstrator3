@@ -18,6 +18,9 @@ class BandViewModel(private val repository: BandRepository) : ViewModel() {
     private val _generatedBandName = MutableStateFlow("")
     val generatedBandName: StateFlow<String> = _generatedBandName
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     fun addItem(name: String, genre: String, notes: String) {
         val newItem = BandItem(name = name, genre = genre, notes = notes)
         viewModelScope.launch {
@@ -37,11 +40,20 @@ class BandViewModel(private val repository: BandRepository) : ViewModel() {
         }
     }
 
+    fun getBandById(id: Int): Flow<BandItem?> {
+        return repository.getItem(id)
+    }
+
     fun generateBandName(genre: String, notes: String) {
         viewModelScope.launch {
-            val prompt = "Generate a creative band name for a $genre band. Notes: $notes"
-            val result = repository.generateBandName(prompt)
-            _generatedBandName.value = result
+            _isLoading.value = true
+            try {
+                val prompt = "Generate a creative band name for a $genre band. Notes: $notes"
+                val result = repository.generateBandName(prompt)
+                _generatedBandName.value = result
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
