@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029096222324",
+    "project_id": "bandforge-864ad",
+    "storage_bucket": "bandforge-864ad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029096222324:android:c256fe70a7664aa6d3eb21",
+        "android_client_info": {
+          "package_name": "com.example.bandforge"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv7nlKqwu40ptNghdjxLWhh4yb3nSUoBA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
