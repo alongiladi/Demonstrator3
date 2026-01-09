@@ -6,7 +6,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.bandforge.BandViewModel
-import com.example.bandforge.data.BandItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -16,6 +15,8 @@ fun EditBandScreen(
     onNavigateBack: () -> Unit
 ) {
     val band by viewModel.getBandById(bandId).collectAsState(initial = null)
+    val isLoading by viewModel.isLoading.collectAsState()
+    val generatedName by viewModel.generatedBandName.collectAsState()
 
     var name by remember { mutableStateOf("") }
     var genre by remember { mutableStateOf("") }
@@ -29,6 +30,12 @@ fun EditBandScreen(
         }
     }
 
+    LaunchedEffect(generatedName) {
+        if (generatedName.isNotEmpty()) {
+            name = generatedName
+        }
+    }
+
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -39,22 +46,40 @@ fun EditBandScreen(
             value = name,
             onValueChange = { name = it },
             label = { Text("Band Name") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         )
 
         OutlinedTextField(
             value = genre,
             onValueChange = { genre = it },
             label = { Text("Genre") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         )
 
         OutlinedTextField(
             value = notes,
             onValueChange = { notes = it },
             label = { Text("Notes") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         )
+
+        Button(
+            onClick = { viewModel.generateBandName(genre, notes) },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text("Generate with AI - Coming soon in CCL3!")
+            }
+        }
 
         Button(
             onClick = {
@@ -64,7 +89,8 @@ fun EditBandScreen(
                     onNavigateBack()
                 }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            enabled = !isLoading
         ) {
             Text("Save Changes")
         }

@@ -6,9 +6,9 @@ import com.google.ai.client.generativeai.GenerativeModel
 class GeminiService {
 
     private val generativeModel = GenerativeModel(
-        // לדגמים נוספים, עיין בתיעוד של Gemini API
+
         modelName = "gemini-pro",
-        // קריאת המפתח שהגדרנו ב-build.gradle
+
         apiKey = BuildConfig.GEMINI_API_KEY
     )
 

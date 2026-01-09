@@ -1,5 +1,7 @@
 package com.example.bandforge.Screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,8 +13,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.bandforge.BandViewModel
+import com.example.bandforge.R
 import com.example.bandforge.data.BandItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,24 +30,49 @@ fun BandListScreen(
 ) {
     val items by viewModel.allItems.collectAsState(initial = emptyList())
 
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("BandForge - Saved Names") }) },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onNavigateToAdd) {
-                Icon(Icons.Default.Add, contentDescription = "Add Band Name")
-            }
-        }
-    ) { paddingValues ->
-        LazyColumn(
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            items(items) { item ->
-                BandItemRow(
-                    item = item,
-                    onDelete = { viewModel.deleteItem(item) },
-                    onEdit = { onNavigateToEdit(item.id) }
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Background Image
+        Image(
+            painter = painterResource(id = R.drawable.a),
+            contentDescription = "Background",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+
+        // Scrim (darkening layer)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.6f))
+        )
+
+        Scaffold(
+            containerColor = Color.Transparent, // Make Scaffold transparent
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = { Text("BandForge - Saved Names", color = Color.White) },
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color.Transparent
+                    )
                 )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = onNavigateToAdd) {
+                    Icon(Icons.Default.Add, contentDescription = "Add Band Name")
+                }
+            }
+        ) { paddingValues ->
+            LazyColumn(
+                modifier = Modifier.padding(paddingValues).fillMaxSize(),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(items) { item ->
+                    BandItemRow(
+                        item = item,
+                        onDelete = { viewModel.deleteItem(item) },
+                        onEdit = { onNavigateToEdit(item.id) }
+                    )
+                }
             }
         }
     }
@@ -50,19 +81,28 @@ fun BandListScreen(
 @Composable
 fun BandItemRow(item: BandItem, onDelete: () -> Unit, onEdit: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)
+        )
     ) {
         Row(
-            modifier = Modifier.padding(16.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = item.name, style = MaterialTheme.typography.titleMedium)
-                Text(text = "Genre: ${item.genre}", style = MaterialTheme.typography.bodyMedium)
+                Text(text = item.name, style = MaterialTheme.typography.titleLarge)
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(text = item.genre, style = MaterialTheme.typography.bodyMedium)
                 if (item.notes.isNotEmpty()) {
-                    Text(text = "Notes: ${item.notes}", style = MaterialTheme.typography.bodySmall)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = item.notes, style = MaterialTheme.typography.bodySmall)
                 }
             }
             Row {
