@@ -1,26 +1,36 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+}
 
-        id("com.google.devtools.ksp") // [cite: 391]
-    }
-
+// קריאת המפתח והסרת המרכאות המיותרות
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+val apiKeyRaw = localProperties.getProperty("GEMINI_API_KEY", "")
+val apiKey = apiKeyRaw.removeSurrounding("\"") // מסיר מרכאות מההתחלה והסוף
 
 android {
     namespace = "com.example.demonstrator3"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.demonstrator3"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // שימוש במשתנה הנקי
+        buildConfigField("String", "GEMINI_API_KEY", "\"$apiKey\"")
     }
 
     buildTypes {
@@ -33,14 +43,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
+        buildConfig = true
+    }
+    packaging {
+        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
     }
 }
 
@@ -60,10 +74,13 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    implementation("androidx.navigation:navigation-compose:2.8.0") // או גרסה עדכנית אחרת
+    implementation("androidx.navigation:navigation-compose:2.8.0-beta01")
 
-    val room_version = "2.6.1" // או גרסה עדכנית אחרת
-    implementation("androidx.room:room-runtime:$room_version") // [cite: 394]
-    implementation("androidx.room:room-ktx:$room_version")     // מאפשר שימוש ב-Coroutines עם Room [cite: 395]
-    ksp("androidx.room:room-compiler:$room_version")           // המנוע שמייצר את הקוד מאחורי הקלעים [cite: 396]
+    val room_version = "2.6.1"
+    implementation("androidx.room:room-runtime:$room_version")
+    implementation("androidx.room:room-ktx:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
+
+    // Gemini API
+    implementation("com.google.ai.client.generativeai:generativeai:0.5.0")
 }
